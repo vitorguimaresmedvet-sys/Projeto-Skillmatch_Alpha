@@ -192,7 +192,6 @@ const resultadosVagas = listaVagas.map((vaga, index) => {
   }
 
   return { vaga, resultadoVaga };
-});
 
 const melhorVaga = resultadosVagas.reduce((melhor, atual) => {
   return atual.resultadoVaga > melhor.resultadoVaga ? atual : melhor;
