@@ -1,4 +1,6 @@
-const candidato = {
+
+// 1. Dados de teste (descomentados)
+const candidatoOriginal = {
   nome: "João Silva",
   idade: 30,
   area: "Desenvolvimento Back-End",
@@ -6,7 +8,7 @@ const candidato = {
   experienciaMeses: 5,
 };
 
-const vaga = [
+const listaVagas = [
   {
     id: 1,
     empresa: "Tech Solutions",
@@ -33,8 +35,8 @@ const vaga = [
   },
 ];
 
-// classe de vagas e candidato para criar objetos a partir das classes, e a função avaliarCandidato para calcular o percentual de requisitos atendidos pelo candidato em relação à vaga. O resultado é exibido no console.
-class vagas {
+// 2. Classes (Com iniciais maiúsculas para evitar conflito de escopo)
+class Vaga {
   constructor(cargo, salario, requisitos, modalidade, id = null) {
     this.id = id;
     this.cargo = cargo;
@@ -43,8 +45,8 @@ class vagas {
     this.modalidade = modalidade;
   }
 }
-//classe de vagas e candidato para criar objetos a partir das classes, e a função avaliarCandidato para calcular o percentual de requisitos atendidos pelo candidato em relação à vaga. O resultado é exibido no console.
-class candidato {
+
+class Candidato {
   constructor(nome, idade, area, habilidades, experienciaMeses) {
     this.nome = nome;
     this.idade = idade;
@@ -54,24 +56,37 @@ class candidato {
   }
 }
 
-function avaliarCandidato(candidato, vaga) {
-  const requisitosAtendidos = vaga.requisitos.filter((requisito) =>
-    candidato.habilidades.includes(requisito),
+// 3. Função de avaliação
+function avaliarCandidato(candidatoObjeto, vagaObjeto) {
+  const requisitosAtendidos = vagaObjeto.requisitos.filter((requisito) =>
+    candidatoObjeto.habilidades.includes(requisito)
   ).length;
-  const totalRequisitos = vaga.requisitos.length;
+  
+  const totalRequisitos = vagaObjeto.requisitos.length;
   const percentualAtendimento = (requisitosAtendidos / totalRequisitos) * 100;
   return percentualAtendimento;
 }
 
-new candidato(
+// 4. Criação do objeto usando a classe e armazenamento na variável 'novoCandidato'
+const novoCandidato = new Candidato(
   "João Silva",
   30,
   "Desenvolvimento Back-End",
   ["JavaScript", "React", "Node.js"],
-  5,
+  5
 );
 
-const resultado = avaliarCandidato(candidato, vaga[0]);
+// 5. Execução (Usando a primeira vaga do array 'listaVagas')
+const resultado = avaliarCandidato(novoCandidato, listaVagas[0]);
+
 console.log(
-  `O candidato atende ${resultado.toFixed(2)}% dos requisitos da vaga.`,
+  `O candidato ${novoCandidato.nome} atende ${resultado.toFixed(2)}% dos requisitos da vaga de ${listaVagas[0].cargo}.`
 );
+
+if (resultado >= 80) {
+  console.log("Recomendação: O candidato é altamente recomendado para esta vaga.");
+} else if (resultado >= 50) {
+  console.log("Recomendação: O candidato é recomendado para esta vaga, mas pode precisar de desenvolvimento em algumas áreas.");
+} else {
+  console.log("Recomendação: O candidato não atende a maioria dos requisitos para esta vaga.");
+}
