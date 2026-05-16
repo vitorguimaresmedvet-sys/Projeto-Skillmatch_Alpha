@@ -55,6 +55,17 @@ class Candidato {
   }
 }
 
+class VagaFrontEnd extends Vaga{
+constructor(cargo, empresa, requisitos, salario, modalidade, nivel){
+super(cargo, salario, requisitos, modalidade);
+this.empresa = empresa;
+this.nivel = nivel;
+}
+exibirNivel(){
+return `Nivel da vaga: ${this.nivel}`;
+}
+}
+
 // // 3. Função de avaliação (atualizada para mostrar os logs dentro dela)
 // function avaliarCandidato(candidatoObjeto, vagaObjeto) {
 //   // Encontra quais habilidades batem com os requisitos
@@ -111,16 +122,16 @@ function avaliarCandidato(candidatoObjeto, vagaObjeto) {
 
   // EXIBE OS LOGS MOSTRANDO OS TEXTOS SEPARADOS POR VÍRGULA
   console.log(
-    `Habilidades correspondentes: ${habilidadesCorrespondentes.join(", ")}`,
+    `Habilidades correspondentes: ${habilidadesCorrespondentes.join(", ")} `,
   );
 
   // Agora sim o .join() está correto, pois estamos lidando com listas de textos!
-  console.log(`Requisitos atendidos: ${habilidadesCorrespondentes.join(", ")}`);
+  console.log(`Requisitos atendidos: ${habilidadesCorrespondentes.join(", ")} que corresponde ao total de ${requisitosAtendidos} requisitos atendidos.`);
   console.log(
-    `Total de requisitos da vaga: ${vagaObjeto.requisitos.join(", ")}`,
+    `Total de requisitos da vaga: ${vagaObjeto.requisitos.join(", ")} (${totalRequisitos} requisitos no total).`,
   );
   console.log(
-    `Habilidades atendidas: ${habilidadesCorrespondentes.join(", ")}`,
+    `Habilidades atendidas: ${habilidadesCorrespondentes.join(", ")} (${requisitosAtendidos} requisitos atendidos).`,
   );
   console.log(
     `Habilidades não encontradas: ${habilidadesFaltantes.join(", ") || "Nenhuma!"}`,
@@ -140,10 +151,15 @@ const novoCandidato = new Candidato(
 
 // 5. Execução (Usando a primeira vaga do array 'listaVagas')
 const resultado = avaliarCandidato(novoCandidato, listaVagas[0]);
+console.log(`Resumo do resultado:`);
 
+function exibirResumo(){
+    
 console.log(
   `O candidato ${novoCandidato.nome} atende ${resultado.toFixed(2)}% dos requisitos da vaga de ${listaVagas[0].cargo}.`,
-);
+);}
+exibirResumo();
+
 
 if (resultado >= 80) {
   console.log(
