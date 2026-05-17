@@ -15,6 +15,8 @@ const candidatoOriginal = {
   experienciaMeses: "experienciaMeses",
 };
 
+// Controle global de saída no console. Defina `true` para suprimir logs de listagem.
+
 const listaVagas = [
   {
     id: 1,
@@ -105,20 +107,26 @@ class VagaFrontEnd extends Vaga {
 // }
 
 // // console.log(listaVagas[0]);
-console.log("---------------------------------------");
-console.log("Vagas disponíveis:");
-console.log("---------------------------------------");
-listaVagas.forEach((vaga) => {
-  console.log(` EMPRESA: ${vaga.empresa}`);
-  console.log(` CARGO:   ${vaga.cargo} (ID: ${vaga.id})`);
-  console.log(` SALÁRIO: R$ ${vaga.salario.toLocaleString("pt-BR")},00`);
-  console.log(` MODELO:  ${vaga.modalidade}`);
-  console.log(` REQUISITOS ORIGINAIS: ${vaga.requisitos.join(", ")}`);
+// Mostrar listagem de vagas (true = suprimir listagem inicial)
+const SILENT = false;
+// Controla se os detalhes por vaga devem ser impressos durante a avaliação
+const PRINT_PER_VAGA = false;
+if (!SILENT) {
   console.log("---------------------------------------");
-});
+  console.log("Vagas disponíveis:");
+  console.log("---------------------------------------");
+  listaVagas.forEach((vaga) => {
+    console.log(` EMPRESA: ${vaga.empresa}`);
+    console.log(` CARGO:   ${vaga.cargo} (ID: ${vaga.id})`);
+    console.log(` SALÁRIO: R$ ${vaga.salario.toLocaleString("pt-BR")},00`);
+    console.log(` MODELO:  ${vaga.modalidade}`);
+    console.log(` REQUISITOS ORIGINAIS: ${vaga.requisitos.join(", ")}`);
+    console.log("---------------------------------------");
+  });
+}
 
 // 3. Função de avaliação (atualizada para mostrar os nomes das tecnologias)
-function avaliarCandidato(candidatoObjeto, vagaObjeto) {
+function avaliarCandidato(candidatoObjeto, vagaObjeto, exibirLogs = true) {
   // Encontra quais requisitos o candidato TEM (Atendidos)
   const habilidadesCorrespondentes = vagaObjeto.requisitos.filter((requisito) =>
     candidatoObjeto.habilidades.includes(requisito),
@@ -134,30 +142,33 @@ function avaliarCandidato(candidatoObjeto, vagaObjeto) {
   const totalRequisitos = vagaObjeto.requisitos.length;
   const percentualAtendimento = (requisitosAtendidos / totalRequisitos) * 100;
 
-  // EXIBE OS LOGS MOSTRANDO OS TEXTOS SEPARADOS POR VÍRGULA
-  console.log("---------------------------------------");
-  console.log(
-    `Habilidades correspondentes: ${habilidadesCorrespondentes.join(", ")} `,
-  );
+  // EXIBE OS LOGS MOSTRANDO OS TEXTOS SEPARADOS POR VÍRGULA (apenas se exibirLogs=true)
+  if (exibirLogs) {
+    console.log("---------------------------------------");
+    console.log(
+      `Habilidades correspondentes: ${habilidadesCorrespondentes.join(", ")} `,
+    );
 
-  // Agora sim o .join() está correto, pois estamos lidando com listas de textos!
-  console.log(
-    `Requisitos atendidos: ${habilidadesCorrespondentes.join(", ")} que corresponde ao total de ${requisitosAtendidos} requisitos atendidos.`,
-  );
-  console.log(
-    `Total de requisitos da vaga: ${vagaObjeto.requisitos.join(", ")} (${totalRequisitos} requisitos no total).`,
-  );
-  console.log(
-    `Habilidades atendidas: ${habilidadesCorrespondentes.join(", ")} (${requisitosAtendidos} requisitos atendidos).`,
-  );
-  console.log(
-    `Habilidades não encontradas: ${habilidadesFaltantes.join(", ") || "Nenhuma!"}`,
-  );
-  console.log("---------------------------------------");
-  console.log(
-    `Recomendações de estudo: priorize estudar ${habilidadesFaltantes.join(", ") || "Nenhuma!"}, pois esta(s) é(são) a(s) habilidade(s) que você ainda não possui e que é(são) requisitada(s) para a vaga. Focar nela(s) pode aumentar suas chances de conseguir a vaga!`,
-  );
-  console.log("---------------------------------------");
+    // Agora sim o .join() está correto, pois estamos lidando com listas de textos!
+    console.log(
+      `Requisitos atendidos: ${habilidadesCorrespondentes.join(", ")} que corresponde ao total de ${requisitosAtendidos} requisitos atendidos.`,
+    );
+    console.log(
+      `Total de requisitos da vaga: ${vagaObjeto.requisitos.join(", ")} (${totalRequisitos} requisitos no total).`,
+    );
+    console.log(
+      `Habilidades atendidas: ${habilidadesCorrespondentes.join(", ")} (${requisitosAtendidos} requisitos atendidos).`,
+    );
+    console.log(
+      `Habilidades não encontradas: ${habilidadesFaltantes.join(", ") || "Nenhuma!"}`,
+    );
+    console.log("---------------------------------------");
+    console.log(
+      `Recomendações de estudo: priorize estudar ${habilidadesFaltantes.join(", ") || "Nenhuma!"}, pois esta(s) é(são) a(s) habilidade(s) que você ainda não possui e que é(são) requisitada(s) para a vaga. Focar nela(s) pode aumentar suas chances de conseguir a vaga!`,
+    );
+    console.log("---------------------------------------");
+  }
+
   return percentualAtendimento;
 }
 
@@ -170,32 +181,107 @@ const novoCandidato = new Candidato(
   24,
 );
 
-console.log(`Candidato criado: ${novoCandidato.nome}, ${novoCandidato.idade} anos, área: ${novoCandidato.area}, habilidades: ${novoCandidato.habilidades.join(", ")}, experiência: ${novoCandidato.experienciaMeses} meses.`);
+console.log(
+  `Candidato: ${novoCandidato.nome}, ${novoCandidato.idade} anos, área: ${novoCandidato.area}, habilidades: ${novoCandidato.habilidades.join(", ")}, experiência: ${novoCandidato.experienciaMeses} meses.`,
+);
 
-// 5. Execução (Comparando o candidato com todas as vagas do array 'listaVagas')
-console.log("Comparando o candidato com todas as vagas disponíveis:");
+
+setTimeout(() => {
+  console.log(
+    `Iniciando análise de ${novoCandidato.nome} para as vagas disponíveis...`,
+  );
+}, 1000);
+
+setTimeout(() => {
+  // 5. Execução (Comparando o candidato com todas as vagas do array 'listaVagas')
+// Silencia temporariamente `console.log` durante a avaliação para evitar saídas grandes
+const _originalConsoleLog = console.log;
+if (SILENT) console.log = function () {};
+
+if (PRINT_PER_VAGA)
+  console.log("Comparando o candidato com todas as vagas disponíveis:");
 const resultadosVagas = listaVagas.map((vaga, index) => {
-  console.log("=======================================");
-  console.log(`Vaga ${index + 1} de ${listaVagas.length}`);
-  console.log(`Empresa: ${vaga.empresa}`);
-  console.log(`Cargo: ${vaga.cargo}`);
-
-  const resultadoVaga = avaliarCandidato(novoCandidato, vaga);
-  console.log(`Resultado final: ${resultadoVaga.toFixed(2)}% dos requisitos atendidos para a vaga de ${vaga.cargo}.`);
-
-  if (resultadoVaga >= 80) {
-    console.log("Recomendação: O candidato é altamente recomendado para esta vaga.");
-  } else if (resultadoVaga >= 50) {
-    console.log("Recomendação: O candidato é recomendado para esta vaga, mas pode precisar de desenvolvimento em algumas áreas.");
-  } else {
-    console.log("Recomendação: O candidato não atende a maioria dos requisitos para esta vaga.");
+  if (PRINT_PER_VAGA) {
+    console.log("=======================================");
+    console.log(`Vaga ${index + 1} de ${listaVagas.length}`);
+    console.log(`Empresa: ${vaga.empresa}`);
+    console.log(`Cargo: ${vaga.cargo}`);
   }
+
+  const resultadoVaga = avaliarCandidato(novoCandidato, vaga, false);
 
   return { vaga, resultadoVaga };
 });
+// Restaura o console após a avaliação
+if (SILENT) console.log = _originalConsoleLog;
 const melhorVaga = resultadosVagas.reduce((melhor, atual) => {
   return atual.resultadoVaga > melhor.resultadoVaga ? atual : melhor;
 }, resultadosVagas[0]);
 
 console.log("=======================================");
-console.log(`Melhor correspondência: o candidato está mais próximo da vaga de ${melhorVaga.vaga.cargo} na empresa ${melhorVaga.vaga.empresa}, com ${melhorVaga.resultadoVaga.toFixed(2)}% dos requisitos atendidos.`);
+// console.log(`Melhor correspondência: o candidato está mais próximo da vaga de ${melhorVaga.vaga.cargo} na empresa ${melhorVaga.vaga.empresa}, com ${melhorVaga.resultadoVaga.toFixed(2)}% dos requisitos atendidos.`);
+
+function recomendacaoVaga(vaga, resultadoVaga) {
+  // console.log(
+  //   `Resultado final: ${resultadoVaga.toFixed(2)}% dos requisitos atendidos para a vaga de ${vaga.cargo}.`,
+  // );
+
+  if (resultadoVaga >= 80) {
+    console.log(
+      "Recomendação: O candidato é altamente recomendado para esta vaga.",
+    );
+  } else if (resultadoVaga >= 50) {
+    console.log(
+      "Recomendação: O candidato é recomendado para esta vaga, mas pode precisar de desenvolvimento em algumas áreas.",
+    );
+  } else {
+    console.log(
+      "Recomendação: O candidato não atende a maioria dos requisitos para esta vaga.",
+    );
+  }
+}
+
+function finalizarAnalise(nomeCandidato, callback) {
+  console.log("Análise finalizada.");
+  callback(nomeCandidato);
+}
+
+finalizarAnalise(novoCandidato.nome, (nome) => {
+  console.log(
+    `Notificação: análise de ${nome} concluída. Melhor vaga: ${melhorVaga.vaga.cargo} na empresa ${melhorVaga.vaga.empresa}, com ${melhorVaga.resultadoVaga.toFixed(2)}% dos requisitos atendidos.`,
+  );
+  // opcional: mostrar logs detalhados da melhor vaga
+  avaliarCandidato(novoCandidato, melhorVaga.vaga, true);
+  recomendacaoVaga(melhorVaga.vaga, melhorVaga.resultadoVaga);
+});
+
+if (PRINT_PER_VAGA) {
+  recomendaçãoVaga();
+}
+}, 3500);
+
+
+
+// RF13 – Usar closure
+// Criar uma função que mantenha um valor interno. Exemplo:
+// function criarContadorDeAnalises() {
+//  let total = 0;
+//  return function () {
+//  total++;
+//  return total;
+//  };
+// }
+// RF14 – Usar Promise e async/await
+// Simular o carregamento das vagas como se os dados viessem de um servidor. Não é necessário usar API real.
+// Exemplo:
+// function buscarVagasSimuladas() {
+//  return new Promise((resolve) => {
+//  setTimeout(() => {
+//  resolve(vagas);
+//  }, 1000);
+//  });
+// }
+// async function iniciarSistema() {
+//  const vagasCarregadas = await buscarVagasSimuladas();
+//  console.log("Vagas carregadas com sucesso!");
+//  console.log(vagasCarregadas);}
