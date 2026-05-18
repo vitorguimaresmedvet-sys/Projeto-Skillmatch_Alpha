@@ -142,6 +142,12 @@ function avaliarCandidato(candidatoObjeto, vagaObjeto, exibirLogs = true) {
   const totalRequisitos = vagaObjeto.requisitos.length;
   const percentualAtendimento = (requisitosAtendidos / totalRequisitos) * 100;
 
+  // Classificação textual (RF04)
+  let classificacao = "";
+  if (percentualAtendimento >= 80) classificacao = "Alta compatibilidade";
+  else if (percentualAtendimento >= 50) classificacao = "Média compatibilidade";
+  else classificacao = "Baixa compatibilidade";
+
   // EXIBE OS LOGS MOSTRANDO OS TEXTOS SEPARADOS POR VÍRGULA (apenas se exibirLogs=true)
   if (exibirLogs) {
     console.log("---------------------------------------");
@@ -162,6 +168,7 @@ function avaliarCandidato(candidatoObjeto, vagaObjeto, exibirLogs = true) {
     console.log(
       `Habilidades não encontradas: ${habilidadesFaltantes.join(", ") || "Nenhuma!"}`,
     );
+    console.log(`Classificação: ${classificacao}`);
     console.log("---------------------------------------");
     console.log(
       `Recomendações de estudo: priorize estudar ${habilidadesFaltantes.join(", ") || "Nenhuma!"}, pois esta(s) é(são) a(s) habilidade(s) que você ainda não possui e que é(são) requisitada(s) para a vaga. Focar nela(s) pode aumentar suas chances de conseguir a vaga!`,
@@ -185,58 +192,89 @@ console.log(
   `Candidato: ${novoCandidato.nome}, ${novoCandidato.idade} anos, área: ${novoCandidato.area}, habilidades: ${novoCandidato.habilidades.join(", ")}, experiência: ${novoCandidato.experienciaMeses} meses.`,
 );
 
+function aguardar(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
-setTimeout(() => {
-  console.log(
-    `Iniciando análise de ${novoCandidato.nome} para as vagas disponíveis...`,
-  );
-}, 1000);
+// Simula o carregamento das vagas (RF14)
+function buscarVagasSimuladas() {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(listaVagas), 1000);
+  });
+}
 
-setTimeout(() => {
-  // 5. Execução (Comparando o candidato com todas as vagas do array 'listaVagas')
-// Silencia temporariamente `console.log` durante a avaliação para evitar saídas grandes
-const _originalConsoleLog = console.log;
-if (SILENT) console.log = function () {};
+async function executarAnalise(candidato) {
+  // Carrega as vagas (simulação de requisição)
+  const vagasCarregadas = await buscarVagasSimuladas();
 
-if (PRINT_PER_VAGA)
-  console.log("Comparando o candidato com todas as vagas disponíveis:");
-const resultadosVagas = listaVagas.map((vaga, index) => {
-  if (PRINT_PER_VAGA) {
-    console.log("=======================================");
-    console.log(`Vaga ${index + 1} de ${listaVagas.length}`);
-    console.log(`Empresa: ${vaga.empresa}`);
-    console.log(`Cargo: ${vaga.cargo}`);
-  }
+  const numeroAnalise = contarAnalise();
+  console.log(`Executando análise nº ${numeroAnalise} para ${candidato.nome}`);
 
-  const resultadoVaga = avaliarCandidato(novoCandidato, vaga, false);
+  const _originalConsoleLog = console.log;
+  if (SILENT) console.log = function () {};
 
-  return { vaga, resultadoVaga };
-});
-// Restaura o console após a avaliação
-if (SILENT) console.log = _originalConsoleLog;
-const melhorVaga = resultadosVagas.reduce((melhor, atual) => {
-  return atual.resultadoVaga > melhor.resultadoVaga ? atual : melhor;
-}, resultadosVagas[0]);
+  if (PRINT_PER_VAGA) console.log("Comparando o candidato com todas as vagas disponíveis:");
 
-console.log("=======================================");
-// console.log(`Melhor correspondência: o candidato está mais próximo da vaga de ${melhorVaga.vaga.cargo} na empresa ${melhorVaga.vaga.empresa}, com ${melhorVaga.resultadoVaga.toFixed(2)}% dos requisitos atendidos.`);
+  const resultadosVagas = vagasCarregadas.map((vaga, index) => {
+    if (PRINT_PER_VAGA) {
+      console.log("=======================================");
+      console.log(`Vaga ${index + 1} de ${vagasCarregadas.length}`);
+      console.log(`Empresa: ${vaga.empresa}`);
+      console.log(`Cargo: ${vaga.cargo}`);
+    }
+
+    const resultadoVaga = avaliarCandidato(candidato, vaga, false);
+    return { vaga, resultadoVaga };
+  });
+
+  if (SILENT) console.log = _originalConsoleLog;
+
+  const melhorVaga = resultadosVagas.reduce((melhor, atual) => {
+    return atual.resultadoVaga > melhor.resultadoVaga ? atual : melhor;
+  }, resultadosVagas[0]);
+
+  console.log("=======================================");
+  return melhorVaga;
+}
+
+function criarContadorDeAnalises() {
+  let total = 0;
+  return function () {
+    total += 1;
+    return total;
+  };
+}
+
+const contarAnalise = criarContadorDeAnalises();
+
+
+
+(async () => {
+  console.log(`Iniciando análise de ${novoCandidato.nome} para as vagas disponíveis...`);
+  const melhorVaga = await executarAnalise(novoCandidato);
+
+  finalizarAnalise(novoCandidato.nome, (nome) => {
+    console.log(
+      `Notificação: análise de ${nome} concluída. Melhor vaga: ${melhorVaga.vaga.cargo} na empresa ${melhorVaga.vaga.empresa}, com ${melhorVaga.resultadoVaga.toFixed(2)}% dos requisitos atendidos.`,
+    );
+    // opcional: mostrar logs detalhados da melhor vaga
+    avaliarCandidato(novoCandidato, melhorVaga.vaga, true);
+    recomendacaoVaga(melhorVaga.vaga, melhorVaga.resultadoVaga);
+  });
+})();
 
 function recomendacaoVaga(vaga, resultadoVaga) {
-  // console.log(
-  //   `Resultado final: ${resultadoVaga.toFixed(2)}% dos requisitos atendidos para a vaga de ${vaga.cargo}.`,
-  // );
-
   if (resultadoVaga >= 80) {
     console.log(
-      "Recomendação: O candidato é altamente recomendado para esta vaga.",
+      "Recomendação: Alta",
     );
   } else if (resultadoVaga >= 50) {
     console.log(
-      "Recomendação: O candidato é recomendado para esta vaga, mas pode precisar de desenvolvimento em algumas áreas.",
+      "Recomendação: Média",
     );
   } else {
     console.log(
-      "Recomendação: O candidato não atende a maioria dos requisitos para esta vaga.",
+      "Recomendação: Baixa",
     );
   }
 }
@@ -245,20 +283,7 @@ function finalizarAnalise(nomeCandidato, callback) {
   console.log("Análise finalizada.");
   callback(nomeCandidato);
 }
-
-finalizarAnalise(novoCandidato.nome, (nome) => {
-  console.log(
-    `Notificação: análise de ${nome} concluída. Melhor vaga: ${melhorVaga.vaga.cargo} na empresa ${melhorVaga.vaga.empresa}, com ${melhorVaga.resultadoVaga.toFixed(2)}% dos requisitos atendidos.`,
-  );
-  // opcional: mostrar logs detalhados da melhor vaga
-  avaliarCandidato(novoCandidato, melhorVaga.vaga, true);
-  recomendacaoVaga(melhorVaga.vaga, melhorVaga.resultadoVaga);
-});
-
-if (PRINT_PER_VAGA) {
-  recomendaçãoVaga();
-}
-}, 3500);
+;
 
 
 
