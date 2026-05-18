@@ -13,7 +13,7 @@ Ao final da execução, o *“script”* entrega um relatório detalhado contend
 ## **<u>Desenvolvedores (*“Squad”*)</u>**
 - **Vitor Augusto G. Guimarães** (Organização, *“Kanban”* & Documentação técnica)
 - **Gabriel da Rosa dos Passos** (Desenvolvimento de *“Features”* & Lógica)
-- **[Nome do Integrante 3]** (Desenvolvimento de *“Features”* & *“Video”*)
+- **Guilherme Zanzi Vieira** (Desenvolvimento de *“Features”* & *“Video”*)
 
 ---
 
