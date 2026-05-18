@@ -7,4 +7,4 @@ O primeiro quadro tem como objetivo orientar os participantes sobre as tarefas i
 A construção desses quadros foi baseada no material disponibilizado para a realização do mini-projeto confeccionado pelo Professor Jaime, contando com adendos estratégicos desenvolvidos pelos próprios integrantes do grupo para otimizar o fluxo de trabalho.
 
 A estrutura detalhada do nosso gerenciamento pode ser verificada e acompanhada através do link a seguir:
-[*“Link”* de Acesso ao Quadro do *“Trello”*](https://trello.com/invite/b/6a07a479071865d7b41fed54/ATTI0248eb3d25ce2ba8c79ce4363189970409C6F584/projeto-skillmatch)
+[*Planejamento de Execução* de Acesso ao Quadro do *“Trello”*](https://trello.com/invite/b/6a07a479071865d7b41fed54/ATTI0248eb3d25ce2ba8c79ce4363189970409C6F584/projeto-skillmatch)
