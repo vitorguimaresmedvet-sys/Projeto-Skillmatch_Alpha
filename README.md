@@ -1,3 +1,4 @@
+<!-- commit 1 Vitor-->
 # **<u>*“SkillMatch”*</u>**
 
 ## **<u>Sobre o Projeto</u>**
@@ -17,6 +18,8 @@ Ao final da execução, o *“script”* entrega um relatório detalhado contend
 
 ---
 
+
+
 ## **<u>Objetivos Técnicos (Módulo 01)</u>**
 Este projeto foi construído para consolidar e aplicar os conceitos fundamentais de desenvolvimento de *“software”* abordados no primeiro módulo do curso, incluindo:
 - Lógica e Controle de Fluxo: Estruturas condicionais avançadas, operadores lógicos e laços de repetição.
@@ -28,7 +31,9 @@ Este projeto foi construído para consolidar e aplicar os conceitos fundamentais
 ---
 
 ## **<u>Fundamentos Teóricos Aplicados</u>**
+<!-- fim commit 1 -->
 
+<!-- commit 2 Guilherme-->
 ### **<u>1. Como a Internet Funciona?</u>**
 A internet é, fundamentalmente, uma infraestrutura global de redes interconectadas que trocam informações entre si. Quando você digita um endereço *“web”* (*“URL”*) ou interage com um sistema, os dados são divididos em pequenos pedaços chamados pacotes. Esses pacotes viajam por cabos submarinos, fibra óptica e roteadores utilizando protocolos padronizados (como o *“TCP/IP”*). Cada dispositivo na rede possui um endereço único chamado *“IP”*. Para que não precisemos decorar sequências numéricas, o sistema *“DNS (Domain Name System)”* atua como uma "lista telefônica", traduzindo nomes de domínio (ex: *“www.google.com”*) no *“IP”* real do servidor onde os arquivos estão hospedados.
 
@@ -38,7 +43,9 @@ O modelo Cliente-Servidor é a estrutura de *“design”* de *“software”* q
 - Servidor: É uma máquina de alta performance configurada para processar requisições, armazenar bases de dados e devolver as respostas solicitadas. 
 
 A comunicação ocorre através do protocolo *“HTTP/HTTPS”*, onde o cliente envia uma *“Request”* (requisição) e o servidor processa e devolve uma *<i>Response</i>* (resposta) contendo o *“status”* da operação e os dados necessários. (Nota: No *“SkillMatch”* *“JS”*, simulamos o tempo de resposta dessa arquitetura utilizando funções assíncronas).
+<!-- fim commit 2 -->
 
+<!-- commit 3 Gabriel-->
 ### **<u>3. Declaração de Variáveis: Diferenças entre *“Var”*, *“Let”* e *“Const”*</u>**
 No ecossistema moderno do *“JavaScript”* (*“ES6+”*), entender o escopo das variáveis é crucial para evitar *“bugs”* de memória e vazamento de dados:
 - *“var”*: Possui escopo de função ou global. Ela sofre *“hoisting”* (o interpretador "eleva" a declaração para o topo antes da execução), o que permite que ela seja acessada antes de ser declarada em alguns casos, retornando *“undefined”*. Permite reatribuição e redeclaração, sendo descontinuada no desenvolvimento moderno por segurança.
@@ -55,4 +62,4 @@ Por se tratar de um simulador construído em *“JavaScript”* puro voltado par
 3. Clique na aba *“Console”*.
 4. Copie todo o código contido no arquivo `skillmatch.js` deste repositório.
 5. Cole o código no terminal do *“Console”* e pressione “Enter” para ver o relatório de compatibilidade rodar em tempo real.
-
+<!-- fim commit 3 -->

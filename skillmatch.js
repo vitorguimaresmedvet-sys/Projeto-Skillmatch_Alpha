@@ -1,3 +1,4 @@
+// commit 1 (gabriel)
 // 1. Dados de teste (descomentados)
 // const candidatoOriginal = {
 //   nome: "João Silva",
@@ -45,7 +46,9 @@ const listaVagas = [
     modalidade: "Híbrido",
   },
 ];
+// fim commit 1
 
+// commit 2 (vitor)
 // 2. Classes (Com iniciais maiúsculas para evitar conflito de escopo)
 // `Vaga` representa o modelo de uma vaga (RF09). Usamos classes para demonstrar POO.
 class Vaga {
@@ -81,6 +84,8 @@ class VagaFrontEnd extends Vaga {
     return `Nivel da vaga: ${this.nivel}`;
   }
 }
+// fim commit 2
+
 
 // // 3. Função de avaliação (atualizada para mostrar os logs dentro dela)
 // function avaliarCandidato(candidatoObjeto, vagaObjeto) {
@@ -112,6 +117,7 @@ class VagaFrontEnd extends Vaga {
 // return percentualAtendimento;
 // }
 
+// commit 3 (Guilherme)
 // // console.log(listaVagas[0]);
 // Mostrar listagem de vagas (true = suprimir listagem inicial)
 const SILENT = false;
@@ -130,8 +136,10 @@ if (!SILENT) {
     console.log("---------------------------------------");
   });
 }
+ // fim commit 3
 
-// 3. Função de avaliação (atualizada para mostrar os nomes das tecnologias)
+//  commit 4 (Gabriel)
+// Função de avaliação (atualizada para mostrar os nomes das tecnologias)
 // Esta função compara as habilidades do candidato com os requisitos da vaga
 // e retorna o percentual de compatibilidade (RF03). Ela também pode imprimir
 // informações detalhadas quando `exibirLogs` está true.
@@ -150,7 +158,9 @@ function avaliarCandidato(candidatoObjeto, vagaObjeto, exibirLogs = true) {
   const requisitosAtendidos = habilidadesCorrespondentes.length;
   const totalRequisitos = vagaObjeto.requisitos.length;
   const percentualAtendimento = (requisitosAtendidos / totalRequisitos) * 100;
+// fim commit 4
 
+// commit 5
   // Classificação textual (RF04) — converte o percentual em um rótulo legível.
   let classificacao = "";
   if (percentualAtendimento >= 80) classificacao = "Alta compatibilidade";
@@ -189,7 +199,9 @@ function avaliarCandidato(candidatoObjeto, vagaObjeto, exibirLogs = true) {
   // Retorna apenas o percentual (valor numérico) para uso em comparações.
   return percentualAtendimento;
 }
+// fim commit 4
 
+// commit 5 (Vitor)
 // 4. Criação do objeto (instância do candidato) — exemplo preenchido (RF01).
 const novoCandidato = new Candidato(
   "Carlos Pereira",
@@ -198,7 +210,9 @@ const novoCandidato = new Candidato(
   ["HTML", "CSS", "JavaScript"],
   24,
 );
+// fim commit 5
 
+// commit 6 (Guilherme)
 console.log(
   `Candidato: ${novoCandidato.nome}, ${novoCandidato.idade} anos, área: ${novoCandidato.area}, habilidades: ${novoCandidato.habilidades.join(", ")}, experiência: ${novoCandidato.experienciaMeses} meses.`,
 );
@@ -214,7 +228,9 @@ function buscarVagasSimuladas() {
     setTimeout(() => resolve(listaVagas), 2000);
   });
 }
+// fim commit 6
 
+// commit 7 (Gabriel)
 // Função assíncrona que executa a análise das vagas para um candidato.
 // Usa `await` para esperar o carregamento simulado das vagas e demonstra o fluxo
 // de processamento principal (RF14). Também usa o closure `contarAnalise()` para
@@ -224,7 +240,7 @@ async function executarAnalise(candidato) {
   const vagasCarregadas = await buscarVagasSimuladas();
 
   const numeroAnalise = contarAnalise();
-  console.log(`Executando análise nº ${numeroAnalise} para ${candidato.nome}`);
+  console.log(`Análise nº ${numeroAnalise} para ${candidato.nome} foi executada!`);
 
   const _originalConsoleLog = console.log;
   if (SILENT) console.log = function () {};
@@ -252,7 +268,9 @@ async function executarAnalise(candidato) {
   console.log("=======================================");
   return melhorVaga;
 }
+// fim commit 7
 
+// commit 8 (Vitor)
 // Closure que mantém um contador privado de quantas análises foram executadas (RF13).
 function criarContadorDeAnalises() {
   let total = 0; // variável privada ao closure
@@ -280,7 +298,9 @@ const contarAnalise = criarContadorDeAnalises();
     recomendacaoVaga(melhorVaga.vaga, melhorVaga.resultadoVaga);
   });
 })();
+// fim commit 8
 
+// commit 9 (Guilherme)
 // Gera uma recomendação final com base na % de aderência (RF07/RF04).
 function recomendacaoVaga(vaga, resultadoVaga) {
   if (resultadoVaga >= 80) {
@@ -297,7 +317,7 @@ function finalizarAnalise(nomeCandidato, callback) {
   console.log("Análise finalizada.");
   callback(nomeCandidato);
 }
-
+// fim commit 9
 
 
 
